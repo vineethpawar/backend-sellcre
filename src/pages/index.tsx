@@ -2,32 +2,33 @@ import axios from "axios";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import Input from "../../components/Input";
+const  { Draggable } = require("react-drag-reorder");
 
 export default function Home() {
   const HOST_URL = "http://localhost:3001";
   const [highlights, setHighlights] = useState<any[]>();
 
-  const fetchHighlights = ()=>{
+  const fetchHighlights = () => {
     axios
-    .get(`${HOST_URL}/api/highlights`)
-    ?.then((res) => setHighlights(res.data))
-    ?.catch((err) => console.log(err));
-  }
+      .get(`${HOST_URL}/api/highlights`)
+      ?.then((res) => setHighlights(res.data))
+      ?.catch((err) => console.log(err));
+  };
 
   const addHighlight = () => {
     // adds empty plaeholder
     axios
       .post(`${HOST_URL}/api/highlights/`, { highlight: "" })
       ?.then((res) => console.log(res))
-      ?.catch((err) => console.log(err))?.finally(()=>{
-        fetchHighlights()
+      ?.catch((err) => console.log(err))
+      ?.finally(() => {
+        fetchHighlights();
       });
   };
 
-  
   useEffect(() => {
     // fetch highlightd
-    fetchHighlights()
+    fetchHighlights();
   }, []);
 
   return (
@@ -59,15 +60,16 @@ export default function Home() {
             + Add highlight
           </div>
         </div>
-
-        {highlights?.map((highlight) => (
-          <Input
-            key={highlight.id}
-            highlight={highlight}
-            highlights={highlights}
-            setHighlights={setHighlights}
-          />
-        ))}
+        <Draggable>
+          {highlights?.map((highlight) => (
+            <Input
+              key={highlight.id}
+              highlight={highlight}
+              highlights={highlights}
+              setHighlights={setHighlights}
+            />
+          ))}
+        </Draggable>
       </div>
     </>
   );
