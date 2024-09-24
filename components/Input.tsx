@@ -3,7 +3,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import deleteIcon from "./delete.svg";
 
-const HOST_URL = "http://localhost:3001";
+const HOST_URL = process.env.PORT ||"http://localhost:3001";
 
 const Input: React.FC<any> = ({ highlight, highlights, setHighlights }) => {
   const [text, setText] = useState(highlight?.highlight || "");
