@@ -2,7 +2,6 @@ import axios from "axios";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import Input from "../../components/Input";
-const  { Draggable } = require("react-drag-reorder");
 
 export default function Home() {
   const HOST_URL = "http://localhost:3001";
@@ -60,7 +59,6 @@ export default function Home() {
             + Add highlight
           </div>
         </div>
-        <Draggable>
           {highlights?.map((highlight) => (
             <Input
               key={highlight.id}
@@ -69,7 +67,6 @@ export default function Home() {
               setHighlights={setHighlights}
             />
           ))}
-        </Draggable>
       </div>
     </>
   );
