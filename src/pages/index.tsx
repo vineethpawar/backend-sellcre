@@ -7,21 +7,28 @@ export default function Home() {
   const HOST_URL = "http://localhost:3001";
   const [highlights, setHighlights] = useState<any[]>();
 
+  const fetchHighlights = ()=>{
+    axios
+    .get(`${HOST_URL}/api/highlights`)
+    ?.then((res) => setHighlights(res.data))
+    ?.catch((err) => console.log(err));
+  }
+
   const addHighlight = () => {
     // adds empty plaeholder
     axios
       .post(`${HOST_URL}/api/highlights/`, { highlight: "" })
       ?.then((res) => console.log(res))
-      ?.catch((err) => console.log(err));
+      ?.catch((err) => console.log(err))?.finally(()=>{
+        fetchHighlights()
+      });
   };
 
+  
   useEffect(() => {
     // fetch highlightd
-    axios
-      .get(`${HOST_URL}/api/highlights`)
-      ?.then((res) => setHighlights(res.data))
-      ?.catch((err) => console.log(err));
-  }, [addHighlight]);
+    fetchHighlights()
+  }, []);
 
   return (
     <>
