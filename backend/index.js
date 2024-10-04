@@ -15,6 +15,7 @@ let highlights = [
   { id: 3, highlight: "third highlight" },
   { id: 4, highlight: "fourth highlight" },
 ];
+console.log("TEST");
 
 app.get("/api/highlights", (req, res) => res.json(highlights));
 
