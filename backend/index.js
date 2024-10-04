@@ -3,7 +3,13 @@ const bodyparser = require("body-parser");
 const cors = require("cors");
 
 const app = express();
-app.use(cors());
+
+const corsOptions = {
+  origin: "https://backend-sellcre.vercel.app/",
+  optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
 app.use(bodyparser.json());
 
 let highlights = [
