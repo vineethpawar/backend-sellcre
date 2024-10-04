@@ -4,8 +4,7 @@ import { useEffect, useState } from "react";
 import Input from "../../components/Input";
 
 export default function Home() {
-  const HOST_URL = process.env.HOST_URL || "http://localhost:3001";
-  console.log(JSON.stringify(process.env))
+  const HOST_URL = process.env.NEXT_PUBLIC_HOST_URL || "http://localhost:3001";
   const [highlights, setHighlights] = useState<any[]>();
 
   const fetchHighlights = () => {
