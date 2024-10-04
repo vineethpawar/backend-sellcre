@@ -1,7 +1,9 @@
 import axios from "axios";
 import Image from "next/image";
 import React, { useState } from "react";
-import deleteIcon from "./delete.svg";
+import deleteIcon from "../assets/delete.svg";
+import handleIcon from "../assets/handle.svg";
+
 
 const HOST_URL = process.env.NEXT_PUBLIC_HOST_URL ||"http://localhost:3001";
 
@@ -29,7 +31,10 @@ const Input: React.FC<any> = ({ highlight, highlights, setHighlights }) => {
   };
 
   return (
-    <div style={{ display: "flex", width: "80%", marginBottom: "10px" }}>
+    <div style={{ display: "flex",alignItems:'center', width: "80%", marginBottom: "10px" }}>
+      <div className="handle" style={{cursor:'pointer'}}>
+        <Image src={handleIcon} height={20} width={20} alt="sort"/>
+      </div>
       <input
         style={{
           background: "white",

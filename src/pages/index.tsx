@@ -2,10 +2,12 @@ import axios from "axios";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import Input from "../../components/Input";
+import { ReactSortable } from "react-sortablejs";
+import {isEqual} from 'lodash';
 
 export default function Home() {
   const HOST_URL = process.env.NEXT_PUBLIC_HOST_URL || "http://localhost:3001";
-  const [highlights, setHighlights] = useState<any[]>();
+  const [highlights, setHighlights] = useState<any[]>([]);
 
   const fetchHighlights = () => {
     axios
@@ -24,6 +26,15 @@ export default function Home() {
         fetchHighlights();
       });
   };
+
+  const reorderHighlights = (updatedList:any[]) =>{
+    if(isEqual(updatedList, highlights)) return;
+    setHighlights(updatedList)
+    axios
+    .post(`${HOST_URL}/api/reorder/`, {updatedList})
+    ?.then((res) => console.log(res))
+    ?.catch((err) => console.log(err))
+  }
 
   useEffect(() => {
     // fetch highlightd
@@ -59,6 +70,8 @@ export default function Home() {
             + Add highlight
           </div>
         </div>
+        {!!highlights?.length && 
+        <ReactSortable handle=".handle" list={highlights} setList={reorderHighlights}>
           {highlights?.map((highlight) => (
             <Input
               key={highlight.id}
@@ -67,6 +80,8 @@ export default function Home() {
               setHighlights={setHighlights}
             />
           ))}
+        </ReactSortable>
+        }
       </div>
     </>
   );

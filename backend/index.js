@@ -18,20 +18,33 @@ let highlights = [
   { id: 3, highlight: "third highlight" },
   { id: 4, highlight: "fourth highlight" },
 ];
-console.log("TEST");
 
 app.get("/api/highlights", (req, res) => res.json(highlights));
 
 app.post("/api/highlights", (req, res) => {
   const newHighlight = { id: Date.now(), highlight: req.body.highlight };
   highlights.push(newHighlight);
-  res.json({ status: "Success", ...newHighlight });
+  res.status(200).json({ status: "Success", ...newHighlight });
 });
 
 app.delete("/api/highlights/:id", (req, res) => {
   const id = req.params.id;
   highlights = highlights.filter((highlight) => highlight.id != id);
-  res.json({ status: "Success", message: "highlight deleted" });
+  res.status(200).json({ status: "Success", message: "highlight deleted" });
+});
+
+app.post("/api/reorder", (req, res) => {
+  const { updatedList } = req.body;
+  if (Array.isArray(updatedList)) {
+    highlights = updatedList;
+    res
+      .status(200)
+      .json({ status: "Success", message: "Highlights updated successfully" });
+  } else {
+    return res
+      .status(400)
+      .send({ status: "failure", message: "Invalid data format" });
+  }
 });
 
 app.put("/api/highlights/:id", (req, res) => {
@@ -40,7 +53,7 @@ app.put("/api/highlights/:id", (req, res) => {
   const updateHighlight = highlights.find((highlight) => highlight.id == id);
   if (updateHighlight) {
     updateHighlight.highlight = requestedHighlight;
-    res.json({ status: "Success", ...updateHighlight });
+    res.status(200).json({ status: "Success", ...updateHighlight });
   } else {
     res.json({ status: "failure", message: "Could not find the highlight" });
   }
